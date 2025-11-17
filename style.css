@@ -1,0 +1,105 @@
+:root {
+    --pink-primary: #FFC0CB; /* Light Pink */
+    --pink-secondary: #FF69B4; /* Hot Pink */
+    --pink-light: #FFE4E1; /* Misty Rose */
+    --pink-dark: #C71585; /* Medium Violet Red */
+    --text-dark: #333;
+    --text-light: #fff;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: var(--pink-light);
+    color: var(--text-dark);
+}
+
+.navbar {
+    background-color: var(--pink-primary) !important;
+}
+
+.navbar-brand, .nav-link {
+    color: var(--text-dark) !important;
+    font-weight: bold;
+}
+
+.nav-link.active {
+    color: var(--pink-dark) !important;
+    border-bottom: 2px solid var(--pink-dark);
+}
+
+.btn-primary {
+    background-color: var(--pink-secondary);
+    border-color: var(--pink-secondary);
+}
+
+.btn-primary:hover {
+    background-color: var(--pink-dark);
+    border-color: var(--pink-dark);
+}
+
+.btn-success { /* For social login or specific actions */
+    background-color: #6c757d; /* Bootstrap default secondary for contrast */
+    border-color: #6c757d;
+}
+
+.btn-success:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+.btn-warning { /* Kakao login */
+    background-color: #FEE500;
+    border-color: #FEE500;
+    color: var(--text-dark);
+}
+
+.btn-warning:hover {
+    background-color: #e6cd00;
+    border-color: #e6cd00;
+}
+
+.card {
+    border-radius: 15px;
+    border: 1px solid var(--pink-primary);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background-color: var(--pink-primary);
+    color: var(--text-dark);
+    border-bottom: 1px solid var(--pink-dark);
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.footer {
+    background-color: var(--pink-primary) !important;
+    color: var(--text-dark) !important;
+    margin-top: 50px;
+}
+
+/* Specific styles for placeholder images */
+img[src*="via.placeholder.com"] {
+    border: 2px dashed var(--pink-secondary);
+    border-radius: 8px;
+    opacity: 0.7;
+}
+
+.badge {
+    background-color: var(--pink-secondary) !important;
+    color: var(--text-light) !important;
+}
+
+.list-group-item {
+    border-color: var(--pink-light);
+}
+
+.nav-tabs .nav-link {
+    color: var(--pink-secondary);
+}
+
+.nav-tabs .nav-link.active {
+    background-color: var(--pink-light);
+    border-color: var(--pink-primary) var(--pink-primary) var(--pink-light);
+    color: var(--pink-dark);
+}
