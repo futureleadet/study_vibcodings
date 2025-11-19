@@ -26,7 +26,7 @@ https://www.sac.or.kr/site/main/program/schedule?tab=2
 
 
 ## CRUD 메뉴 프롬프트
-
+```
 {
   "pageTitle": "회원 피드 및 활동 기록",
   "pageDepth": "Second Depth",
@@ -106,7 +106,9 @@ https://www.sac.or.kr/site/main/program/schedule?tab=2
     {"action": "Delete", "target": "FeedItem", "endpoint": "/api/posts/{postId}", "method": "DELETE"}
   ]
 }
+```
 ## 관리자화면 프롬프트 ##
+```
 {
   "project_name": "futureleadet_관리자_시스템_구축",
   "template": {
@@ -173,3 +175,4 @@ https://www.sac.or.kr/site/main/program/schedule?tab=2
     }
   ]
 }
+```
