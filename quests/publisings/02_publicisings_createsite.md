@@ -106,3 +106,70 @@ https://www.sac.or.kr/site/main/program/schedule?tab=2
     {"action": "Delete", "target": "FeedItem", "endpoint": "/api/posts/{postId}", "method": "DELETE"}
   ]
 }
+## 관리자화면 프롬프트 ##
+{
+  "project_name": "futureleadet_관리자_시스템_구축",
+  "template": {
+    "name": "SB-Admin",
+    "description": "Start Bootstrap의 SB-Admin 템플릿을 기본 레이아웃으로 사용",
+    "reference_url": "https://startbootstrap.com/previews/sb-admin"
+  },
+  "system_type": "관리자_화면",
+  "menu_structure": [
+    {
+      "id": "dashboard",
+      "title": "대시보드",
+      "icon": "fas fa-tachometer-alt",
+      "module_spec": "사이트 현황 요약 및 주요 통계 표시 (SB-Admin 기본 레이아웃 활용)"
+    },
+    {
+      "id": "member_management",
+      "title": "회원 관리",
+      "icon": "fas fa-users",
+      "role": "관리자_직접_운영",
+      "module_spec": "회원 목록 조회, 정보 수정/삭제, 권한 설정 기능 제공"
+    },
+    {
+      "id": "admin_contents",
+      "title": "관리자 직접 업로드 메뉴",
+      "icon": "fas fa-edit",
+      "sub_menus": [
+        {
+          "id": "post_management",
+          "title": "게시물 관리",
+          "role": "관리자_직접_운영",
+          "module_spec": "CRUD 기능 (목록/작성/수정/삭제). 관리자가 직접 내용을 작성하여 게시"
+        },
+        {
+          "id": "quest_management",
+          "title": "퀘스트 관리",
+          "role": "관리자_직접_운영",
+          "module_spec": "CRUD 기능 (목록/작성/수정/삭제). 관리자가 직접 퀘스트 정보 및 미션 파일 업로드"
+        }
+      ]
+    },
+    {
+      "id": "user_submission_review",
+      "title": "놀이인증 관리",
+      "icon": "fas fa-medal",
+      "role": "회원_업로드_심사",
+      "module_spec": {
+        "description": "회원들이 직접 업로드한 내용을 심사하는 메뉴",
+        "features": [
+          "회원 제출 목록 조회 (미승인/승인/반려 상태 구분)",
+          "제출된 인증 내용 및 첨부 파일(이미지/영상 등) 상세 확인",
+          "승인/반려 처리 기능 제공",
+          "반려 시 사유 입력 필드 제공"
+        ]
+      },
+      "note": "요청에 따라, 회원들이 직접 정보를 올리는 **유일한 메뉴**이며, 관리자는 **심사 및 처리**만 담당함."
+    },
+    {
+      "id": "settings",
+      "title": "사이트 설정",
+      "icon": "fas fa-cogs",
+      "role": "관리자_직접_운영",
+      "module_spec": "사이트 기본 설정, 운영 정책, 배너/팝업 관리 기능 제공"
+    }
+  ]
+}
