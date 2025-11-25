@@ -1,3 +1,4 @@
+import os
 from fastapi import FastAPI, Request
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
@@ -5,15 +6,18 @@ from fastapi.templating import Jinja2Templates
 
 app = FastAPI()
 
+# Get the directory of the current file (main.py)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # 정적 파일 마운트 (css, js, img, vendor 등)
-app.mount("/css", StaticFiles(directory="css"), name="css")
-app.mount("/js", StaticFiles(directory="js"), name="js")
-app.mount("/vendor", StaticFiles(directory="vendor"), name="vendor")
-app.mount("/img", StaticFiles(directory="img"), name="img")
-app.mount("/scss", StaticFiles(directory="scss"), name="scss")
+app.mount("/css", StaticFiles(directory=os.path.join(BASE_DIR, "css")), name="css")
+app.mount("/js", StaticFiles(directory=os.path.join(BASE_DIR, "js")), name="js")
+app.mount("/vendor", StaticFiles(directory=os.path.join(BASE_DIR, "vendor")), name="vendor")
+app.mount("/img", StaticFiles(directory=os.path.join(BASE_DIR, "img")), name="img")
+app.mount("/scss", StaticFiles(directory=os.path.join(BASE_DIR, "scss")), name="scss")
 
 # Jinja2 템플릿 설정
-templates = Jinja2Templates(directory=".")
+templates = Jinja2Templates(directory=BASE_DIR)
 
 # HTML 파일 목록
 html_files = [
