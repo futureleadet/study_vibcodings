@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI - {{ notice.title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-sans bg-gray-50 min-h-screen flex flex-col">
+    {% include "header_nav.html" %}
+    <main class="max-w-4xl mx-auto p-8 bg-white shadow-2xl rounded-xl flex-grow mt-8 mb-8 w-full">
+        <h1 class="text-3xl font-bold text-gray-800 mb-2">{{ notice.title }}</h1>
+        <p class="text-sm text-gray-500 border-b pb-4 mb-6">작성일: {{ notice.created_at }}</p>
+
+        <!-- 상세 보기 -->
+        <div class="prose max-w-none mb-10 p-6 bg-gray-50 rounded-lg border border-gray-200">
+            <p class="whitespace-pre-wrap">{{ notice.content }}</p>
+        </div>
+
+        <!-- 수정/삭제 폼 및 버튼 -->
+        <h2 class="text-2xl font-semibold text-gray-800 mb-4 border-b pb-2">공지사항 수정</h2>
+        <form action="/notices/{{ notice.id }}/edit" method="POST" class="space-y-6">
+            <div>
+                <label for="title" class="block text-sm font-medium text-gray-700 mb-1">제목</label>
+                <input type="text" id="title" name="title" value="{{ notice.title }}" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+            
+            <div>
+                <label for="content" class="block text-sm font-medium text-gray-700 mb-1">내용</label>
+                <textarea id="content" name="content" rows="8" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">{{ notice.content }}</textarea>
+            </div>
+
+            <div class="flex justify-between items-center">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+                    수정 완료
+                </button>
+                
+                <!-- 삭제 버튼 (POST 요청을 보내기 위해 별도의 폼 사용) -->
+                <form action="/notices/{{ notice.id }}/delete" method="POST" onsubmit="return confirm('정말로 이 공지사항을 삭제하시겠습니까?');">
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg transition duration-150 shadow-md">
+                        삭제
+                    </button>
+                </form>
+            </div>
+        </form>
+
+        <div class="mt-8 text-center">
+            <a href="/notices/list" class="text-indigo-600 hover:text-indigo-800 font-semibold">&larr; 목록으로 돌아가기</a>
+        </div>
+    </main>
+    <footer class="text-center p-4 mt-auto text-gray-500 bg-white border-t">
+        &copy; 2024 FastAPI Service
+    </footer>
+</body>
+</html>

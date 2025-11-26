@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI - {{ page_title }}</title>
+    <!-- Tailwind CSS 로드 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 정적 CSS 파일 로드 -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body class="font-sans bg-gray-50 min-h-screen flex flex-col">
+    <header class="bg-indigo-700 text-white shadow-xl">
+        <div class="max-w-6xl mx-auto p-4 flex justify-between items-center">
+            <a href="/" class="text-2xl font-bold hover:text-indigo-200 transition duration-150">My FastAPI App</a>
+            <nav class="space-x-6">
+                <a href="/" class="hover:text-indigo-200 transition duration-150">홈</a>
+                <a href="/about" class="hover:text-indigo-200 transition duration-150">소개</a>
+                <a href="/contact" class="hover:text-indigo-200 transition duration-150">문의</a>
+                <!-- 추가된 공지사항 메뉴 -->
+                <a href="/notices/list" class="bg-indigo-500 hover:bg-indigo-600 px-3 py-2 rounded-lg font-semibold transition duration-150">공지사항</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- 최신 공지사항 섹션 (메인 페이지 최상단 한 줄 표시) -->
+    {% if latest_notice %}
+    <div class="bg-yellow-100 border-b border-yellow-300 py-3 text-sm font-medium text-yellow-800 text-center">
+        <span class="px-2 py-0.5 bg-yellow-400 text-yellow-900 rounded-full mr-3">📢 최신 공지:</span>
+        <a href="/notices/{{ latest_notice.id }}" class="hover:underline">{{ latest_notice.title }}</a>
+    </div>
+    {% endif %}
+
+    <main class="max-w-6xl mx-auto p-8 bg-white shadow-2xl rounded-xl flex-grow mt-8 mb-8 w-full">
+        <h1 class="text-4xl font-extrabold text-gray-800 mb-6 border-b pb-4">{{ page_title }}</h1>
+        <p class="text-lg text-gray-600 leading-relaxed mb-8">
+            현재 <strong>{{ page_title }}</strong> 페이지입니다. 상단의 '공지사항' 메뉴를 클릭하여 CRUD 기능을 테스트해 보세요.
+        </p>
+    </main>
+
+    <footer class="text-center p-4 mt-auto text-gray-500 bg-white border-t">
+        &copy; 2024 FastAPI Service
+    </footer>
+</body>
+</html>
