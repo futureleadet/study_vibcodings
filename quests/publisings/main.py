@@ -1,73 +1,47 @@
 import os
 from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from notices import notices_router, initialize_db, get_latest_notice
 
+# FastAPI 애플리케이션 초기화
 app = FastAPI()
 
-# Get the directory of the current file (main.py)
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# 1. DB 초기화 (테이블 생성) - 서버 시작 시 한 번 실행
+initialize_db()
 
-# 정적 파일 마운트 (css, js, img, vendor 등)
-app.mount("/css", StaticFiles(directory=os.path.join(BASE_DIR, "css")), name="css")
-app.mount("/js", StaticFiles(directory=os.path.join(BASE_DIR, "js")), name="js")
-app.mount("/vendor", StaticFiles(directory=os.path.join(BASE_DIR, "vendor")), name="vendor")
-app.mount("/img", StaticFiles(directory=os.path.join(BASE_DIR, "img")), name="img")
-app.mount("/scss", StaticFiles(directory=os.path.join(BASE_DIR, "scss")), name="scss")
+# 2. 정적 파일 경로 설정 및 마운트
+app.mount("/vendor", StaticFiles(directory="vendor"), name="vendor")
+app.mount("/css", StaticFiles(directory="css"), name="css")
+app.mount("/js", StaticFiles(directory="js"), name="js")
+app.mount("/img", StaticFiles(directory="img"), name="img")
 
-# Jinja2 템플릿 설정
-templates = Jinja2Templates(directory=BASE_DIR)
 
-# HTML 파일 목록
-html_files = [
-    "404.html",
-    "blank.html",
-    "buttons.html",
-    "cards.html",
-    "charts.html",
-    "detail_page.html",
-    "event_info.html",
-    "feed.html",
-    "forgot-password.html",
-    "index.html",
-    "login.html",
-    "main_page.html",
-    "member_management.html",
-    "performance_info.html",
-    "popup_info.html",
-    "post_management.html",
-    "quest_management.html",
-    "register.html",
-    "restaurant_info.html",
-    "settings.html",
-    "tables.html",
-    "user_submission_review.html",
-    "utilities-animation.html",
-    "utilities-border.html",
-    "utilities-color.html",
-    "utilities-other.html",
-]
+# 3. Jinja2 템플릿 엔진 설정
+templates = Jinja2Templates(directory=".")
 
-# 루트 경로 (main_page.html)
-@app.get("/", response_class=HTMLResponse)
-async def read_main(request: Request):
-    return templates.TemplateResponse("main_page.html", {"request": request})
+# 4. 공지사항 라우터 포함
+# 모든 공지사항 관련 경로는 /notices/ 로 시작합니다.
+app.include_router(notices_router, prefix="/notices", tags=["Notices"])
 
-# 각 HTML 파일에 대한 동적 라우트 생성
-for html_file in html_files:
-    # index.html은 /index 경로로 별도 처리
-    if html_file == "index.html":
-        path = "/index"
-    else:
-        path = "/" + html_file.replace(".html", "")
+# 5. 루트(Root) 엔드포인트 정의: main_page.html 연결
+@app.get("/")
+async def root(request: Request):
+    # 최신 공지사항을 DB에서 가져옵니다.
+    latest_notice = get_latest_notice()
+    
+    # templates 폴더 내의 main_page.html 파일을 렌더링합니다.
+    return templates.TemplateResponse("main_page.html", {
+        'request': request, 
+        'page_title': '메인 페이지',
+        'latest_notice': latest_notice # 최신 공지사항을 템플릿에 전달
+    })
 
-    # https://fastapi.tiangolo.com/advanced/advanced-routing/#path-operations-with-the-same-path
-    # The first one declared will be used.
-    # We need to create a closure to capture the html_file variable
-    def create_route_function(file_name):
-        async def route_function(request: Request):
-            return templates.TemplateResponse(file_name, {"request": request})
-        return route_function
-
-    app.add_api_route(path, create_route_function(html_file), methods=["GET"], response_class=HTMLResponse)
+# 6. 다른 페이지들도 연결
+@app.get("/{page_name}")
+async def other_pages(request: Request, page_name: str):
+    latest_notice = get_latest_notice()
+    return templates.TemplateResponse(f"{page_name}.html", {
+        'request': request,
+        'latest_notice': latest_notice
+    })

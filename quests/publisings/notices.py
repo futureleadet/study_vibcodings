@@ -8,7 +8,7 @@ import datetime
 notices_router = APIRouter()
 
 # 템플릿 설정 (FastAPI 메인 인스턴스에서 설정된 templates를 사용하지만, 여기서는 독립적으로 설정)
-templates = Jinja2Templates(directory="templates/")
+templates = Jinja2Templates(directory=".")
 
 def initialize_db():
     """공지사항 테이블을 생성합니다. 서버 시작 시 main.py에서 호출됩니다."""
